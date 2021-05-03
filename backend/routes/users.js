@@ -7,7 +7,7 @@ const limiter = require('../middleware/limiterConfig');
 
 const usersCtrl = require('../controllers/users');
 
-router.post('/', /* passwordValidator, */ usersCtrl.createUser);
+router.post('/', passwordValidator, usersCtrl.createUser);
 router.post('/connexion', limiter.limiterConfig, usersCtrl.connexionUser)
 
 module.exports = router;
