@@ -64,9 +64,8 @@ export default {
     },
     methods: {
         async getPost(id) {
-            console.log('getPosts')
             //envoyer une requête pour récupérer les posts avec le bearer token
-            fetch("http://localhost:3000/api/post/getOnePost/"+ id,
+            await fetch("http://localhost:3000/api/post/getOnePost/"+ id,
             {
                 headers: 
                 {
@@ -80,10 +79,9 @@ export default {
             })
             .catch(error => {
                 console.log(error)
-            })
+            });
         },
         async getComments(){
-            console.log('getComments running')
             await fetch('http://localhost:3000/api/comment/getComments/' + this.id, {
                 headers: {
                     authorization: 'Bearer ' + this.token
@@ -94,8 +92,6 @@ export default {
             .catch(error => console.log(error));
         },
         async deleteComment(commentId, url){
-            console.log('delete comment' + ' '+ (commentId))
-            console.log(url)
             await fetch(url + commentId, 
             {
                 method: 'delete',
@@ -116,7 +112,7 @@ export default {
             })
             .catch(error => {
                 console.log(error)
-            })
+            });
         }
     }
 }
