@@ -5,15 +5,15 @@
                 <img src="../assets/logo/icon.svg" alt="logo de groupomania">
             </div>
             <p>Pas encore inscrit ? <a href="/">Inscrivez-vous</a></p>
-            <form id="form" class="m-4" method="POST" @submit.prevent="connexion">
-                <div class="form-row">
+            <form id="form" method="POST" @submit.prevent="connexion">
+                <div class="formRow">
                     <div class="ligneForm">
                         <label for="email">Adresse mail :</label>
-                        <input type="email" name="email" v-model="email" class="form-control" required>
+                        <input type="email" name="email" v-model="email" class="formControl" maxlength="25" required>
                     </div>
                     <div class="ligneForm">
                         <label for="password">Mot de passe :</label>
-                        <input type="password" name="password" v-model="password" class="form-control" required>
+                        <input type="password" name="password" v-model="password" class="formControl" maxlength="25" required>
                     </div>
                 </div>
                 <input id="formButton" type="submit" value="Connexion" class="btnSend">
@@ -22,6 +22,7 @@
         </div>
     </div>
 </template>
+
 <script>
 import router from '../router/index'; 
 export default {
@@ -35,8 +36,8 @@ export default {
         };
     },
     methods: {
-        connexion() {
-            fetch("http://localhost:3000/api/users/connexion",{
+        async connexion() {
+            await fetch("http://localhost:3000/api/users/connexion",{
                 method: 'POST',
                 headers: 
                 {
@@ -56,7 +57,6 @@ export default {
             }) 
             .then(result => {
                 this.result = result
-                console.log(result.token)
                 if(result.token == undefined){
                     alert('email ou mot de passe incorect');
                 } else {
@@ -66,7 +66,7 @@ export default {
                 router.push('/posts')
                 }
             }) 
-            .catch(error => console.log(error));
+            .catch(error => console.log(error));// si il y a une erreur on l'affiche dans la console
         }
     }
 }
@@ -92,5 +92,10 @@ export default {
     background-color: white;
     width: 50%;
     margin: auto;
+}
+@media screen and (max-width: 455px){
+    #connexionContainer{
+        width: initial;
     }
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
     <header>
         <div class="main">
-            <div class="return">
+            <div id="return">
                 <router-link to="/posts">Forum</router-link>
                 <router-link to="/account">Mon compte</router-link>
             </div>
@@ -9,7 +9,7 @@
                 <img src="../assets/logo/icon.svg" alt="logo de groupomania" id="logo">
             </div>
             <div id="logout">
-                <button class="menu" @click="logout" id="btnLg" href="#">Déconnexion</button>
+                <button class="menu" @click="logout" id="btnLg">Déconnexion</button>
             </div>
         </div>
     </header>
@@ -24,7 +24,6 @@ export default {
     methods: {
         logoutButton(){
             const token = localStorage.getItem('token');
-            console.log(token);
             if(token == null){
                 document.getElementById('logout').style.display = 'none';
             }
@@ -40,8 +39,8 @@ export default {
 .main{
     display: flex;
     flex-wrap: wrap;
+    flex-direction: row-reverse;
     justify-content: space-around;
-    margin: 1rem;
     align-items: center;
     text-align: center;
     box-shadow: 0px 0px 10px rgb(110, 107, 107);
@@ -79,5 +78,20 @@ button{
 }
 // responsive
 @media screen and (min-width: 200px) and (max-width: 700px) {
+    button{
+        padding: 7px;
+    }
+    #return{
+        order: 1;
+    }
+    #logo{
+        width: auto;
+    }
+    #logout{
+        order: 1;
+    }
+    .main{
+        flex-direction: row;
+    }
 }
 </style>

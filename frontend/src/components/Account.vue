@@ -25,44 +25,46 @@ export default {
     name: 'Account',
     data(){
         return{
-            data: []
+            data: [],
+            token:'',
+            userId: ''
         }
     },
     created(){
+        this.token = localStorage.getItem('token');
+        this.userId = localStorage.getItem('userId');
         this.getAccountInfo();
     },
     methods: {
-        getAccountInfo(){
-            const token = localStorage.getItem('token');
-            const userId = localStorage.getItem('userId');
-            console.log("getaccount info");
-            fetch("http://localhost:3000/api/account/" + userId, {
+        async getAccountInfo(){ 
+            await fetch("http://localhost:3000/api/account/" + this.userId, {
                 headers: 
                 {
-                    authorization : 'Bearer ' + token
+                    authorization : 'Bearer ' + this.token
                 }
             })
             .then(res =>{
                 return res.json()
-            }).then(res => this.data = res.result[0])
+            })
+            .then(res => this.data = res.result[0])
+            .catch(error => console.log(error))// si il y a une erreur on l'affiche dans la console
         },
-        deleteUser(id){
-            console.log(id);
-            const token = localStorage.getItem('token');
-            console.log(token);
-            fetch("http://localhost:3000/api/account/" + id, {
+        async deleteUser(id){
+            await fetch("http://localhost:3000/api/account/" + id, {
                 method: 'delete',
                 headers: {
-                    authorization : 'Bearer ' + token
+                    authorization : 'Bearer ' + this.token
                 }
-            }).then(res => {
+            })
+            .then(res => {
                 if(res.status == 200){
-                    //deconnexion , plus de token , plus
+                    //deconnexion , plus de token 
                     localStorage.clear()
                     alert('Compte supprimé')
                     router.push('/')
                 }
-            }).then(console.log('res'))
+            })
+            .catch(error => console.log(error))// si il y a une erreur on l'affiche dans la console
         }
     }
 }

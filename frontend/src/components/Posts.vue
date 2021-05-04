@@ -43,48 +43,54 @@ export default {
         }
     },
     created(){
-        console.log('created')
         this.token = localStorage.getItem('token');
         this.userId = localStorage.getItem('userId');
         this.isadmin = localStorage.getItem('isadmin');
         this.getPosts();       
     },
     methods: {
-        getPosts() {
-            //envoyer une requête pour récupérer les posts avec le bearer token
-            fetch("http://localhost:3000/api/post/getPosts",
+        async getPosts() {
+            //envoyer une requête pour récupérer les posts avec le bearer token pou l'authentification
+            await fetch("http://localhost:3000/api/post/getPosts",
             {
                 headers: 
                 {
                     authorization : 'Bearer ' + this.token
                 }
-            }).then(response => {
+            })
+            .then(response => {
                 if(response.status == 403){
                     alert("Vous êtes connecté depuis plus de 8 heures, vous devez vous reconnecter")
                 }
                 const data = response.json();
                 return data
-            }).then(data => {
+            })
+            .then(data => {
                 this.posts = data
             })
+            .catch(error => console.log(error))
         },
-        deletePost(id, url) {
-            console.log(this.token+'deletepost');
-            fetch(url + id, {
+        async deletePost(id, url) {
+            //On envoie une requete avec la methode delete pour supprimer le post correspondant à l'id 
+            await fetch(url + id, {
                 method: 'delete',
                 headers: {
                     authorization : 'Bearer ' + this.token
                 }
-            }).then(res => {
+            })
+            .then(res => {
                 return res
-            }).then(res => {
+            })
+            .then(res => {
                 if (res.status == 401){
                     alert('Vous ne pouvez pas supprimer ce post')
                 }
                 if(res.status == 200){
-                document.location.reload();
+                // Une fois que le post est supprimé on recupère une fois les posts pour mettre à jour le feed
+                this.getPosts()
                 }
             })
+            .catch(error => console.log(error))
         }
     }
 }

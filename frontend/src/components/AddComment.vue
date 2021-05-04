@@ -1,7 +1,7 @@
 <template>
     <div id="addComment" @submit.prevent='addComment'>
         <form action="post">
-            <input type="text" value="Commentaire" name="comInput" id="comInput" v-model="comment" required='true'>
+            <input type="text" value="Commentaire" name="comInput" id="comInput" v-model="comment" required>
             <input type="submit" placeholder="Ajouter un commentaire" id="sendBtn">
         </form>
     </div>
@@ -18,17 +18,11 @@ export default {
         }
     },
     created(){
-        this.getInfo()
-        console.log('created addcomment')
+        this.token = localStorage.getItem('token');
+        this.userId = localStorage.getItem('userId');
     },
     methods:{
-        async getInfo(){
-            this.token = localStorage.getItem('token');
-            this.userId = localStorage.getItem('userId');
-        },
         async addComment(){
-            console.log('ajouter commentaire')
-            console.log(this.userId)
             await fetch("http://localhost:3000/api/comment/createComment",{
                 method: "POST",
                 headers: 
@@ -41,14 +35,14 @@ export default {
                     userId: this.userId,
                     postId: this.$store.state.postId
                 })
-            }).then(response => {
+            })
+            .then(response => {
                 if(response.status == 401){
                     alert("Commentaire vide")
                 }
-                console.log(response)
-                })
-            .catch(err => {
-                console.log(err)
+            })
+            .catch(error => {
+                console.log(error) // si il y a une erreur on l'affiche dans la console
             });
             this.comment = null
             this.$emit('commentsent', {

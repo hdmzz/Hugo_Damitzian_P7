@@ -7,27 +7,25 @@
             <nav class="navigation">
                 <p>Déjà Inscrit ? <a href="/connexion">Connectez-vous</a></p>
             </nav>
-            <form id="form" class="m-4" method="POST" @submit.prevent="sendData">
-                <div class="form-row">
+            <form id="form" method="POST" @submit.prevent="sendData">
                     <div id="rowItem">
-                        <div class="rowLign">
+                        <div class="rowLigne">
                             <label for="prenom">Prénom :</label>
-                            <input type="text" name="prénom" v-model="firstName" class="form-control" required>
+                            <input type="text" name="prenom" v-model="firstName" class="formControl" maxlength="25" required>
                         </div>
-                        <div class="rowLign">
+                        <div class="rowLigne">
                             <label for="nom">Nom :</label>
-                            <input type="text" name="nom" v-model="lastName" class="form-control" required>
+                            <input type="text" name="nom" v-model="lastName" class="formControl" maxlength="25" required>
+                        </div>
+                        <div class="rowLigne">
+                            <label for="email">Adresse mail :</label>
+                            <input type="email" name="email" v-model="email" class="formControl" required pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z.]{2,15}">
+                        </div>
+                        <div class="rowLigne">
+                            <label for="password">Mot de passe :</label>
+                            <input type="password" name="password" v-model="password" class="formControl" maxlength="25" required>
                         </div>
                     </div>
-                    <div class="ligneForm">
-                        <label for="email">Adresse mail :</label>
-                        <input type="email" name="email" v-model="email" class="form-control" required pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z.]{2,15}">
-                    </div>
-                    <div class="ligneForm">
-                        <label for="password">Mot de passe :</label>
-                        <input type="password" name="password" v-model="password" class="form-control" required>
-                    </div>
-                </div>
                 <input id="formButton" type="submit" value="S'inscrire" class="btnSend">
             </form>
         </div>
@@ -48,8 +46,8 @@ export default {
         }
     },
     methods: {
-        sendData() {
-            fetch('http://localhost:3000/api/users/',
+        async sendData() {
+            await fetch('http://localhost:3000/api/users/',
             {
                 method: 'POST',
                 headers: 
@@ -65,6 +63,7 @@ export default {
             })
             .then(function (resp){
                 if (resp.ok){
+                    //Si la reponse a le statut ok, on envoie l'utilisateur sur la page de connexion
                     router.push("connexion")
                     return resp.text()
                 } if (!resp.ok) {
@@ -77,8 +76,6 @@ export default {
     }
 }
 </script>
-
-
 
 <style  lang="scss" scoped>
 #container{
@@ -101,12 +98,19 @@ export default {
 }
 #rowItem{
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: flex-end;
+    width: fit-content;
+    margin: auto;
 }
-.rowLign{
+.rowLigne{
     padding: 1vw;
 }
-.ligneForm{
-    padding-bottom:1vw ; 
+//Responsive
+@media screen and (max-width: 530px){
+    #rowItem{
+        display: block;
+    }
 }
 </style>

@@ -26,36 +26,34 @@ export default {
     methods: {
         onFileSelected(){
             const file = this.$refs.file.files[0]
-            console.log(file)
             this.file = file
-            console.log(this.file)
         },
-        createPost(){
-            console.log('create post running')
+        async createPost(){
             const token = localStorage.getItem('token');
-            console.log(token)
             const userId = localStorage.getItem('userId');
             const formData = new FormData();
             formData.append('userId', userId);
             formData.append('comment', this.comment);
             formData.append('file', this.file);
-            fetch('http://localhost:3000/api/post/createPost', {
+            await fetch('http://localhost:3000/api/post/createPost', {
                 method: "POST",
                 headers: 
                 {
                     authorization: 'Bearer ' + token
                 },
                 body: formData
-            }).then(res => {
+            })
+            .then(res => {
                 if(res.status == 200){
                     this.$emit('postsent', {
                     message: 'nouveau post',
-                })
+                    })
                 }
-            }).catch(error => console.log(error));
+            })
+            .catch(error => console.log(error));// si il y a une erreur on l'affiche dans la console
             document.getElementById('file').value = null;
             document.getElementsByName('comment')[0].value = null;
-            formData.delete('file')
+            formData.delete('file');
         }
     }
 }
@@ -83,6 +81,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     max-width: 100%;
+    align-items: center;
 }
 label {
     display: block;
@@ -109,6 +108,15 @@ label {
 // et on masque le input
 .inputFile{
     display: none;
+}
+textarea{
+    margin: 1px;
+}
+//Responsive
+@media screen and (min-width: 200px) and (max-width: 700px) {
+    #myForm{
+        justify-content: center;
+    }
 }
 
 </style>
