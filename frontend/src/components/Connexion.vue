@@ -9,11 +9,11 @@
                 <div class="formRow">
                     <div class="ligneForm">
                         <label for="email">Adresse mail :</label>
-                        <input type="email" name="email" v-model="email" class="formControl" maxlength="25" required>
+                        <input type="email" name="email" v-model="email" class="formControl" maxlength="25" pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z.]{2,15}" required>
                     </div>
                     <div class="ligneForm">
                         <label for="password">Mot de passe :</label>
-                        <input type="password" name="password" v-model="password" class="formControl" maxlength="25" required>
+                        <input type="password" name="password" v-model="password" class="formControl" maxlength="25" pattern="[0-9a-zA-Zàäâçéèëêïîôöùû -]{2,25}" required>
                     </div>
                 </div>
                 <input id="formButton" type="submit" value="Connexion" class="btnSend">
