@@ -11,11 +11,11 @@
                     <div id="rowItem">
                         <div class="rowLigne">
                             <label for="prenom">Prénom :</label>
-                            <input type="text" name="prenom" v-model="firstName" class="formControl" maxlength="25" required>
+                            <input type="text" name="prenom" v-model="firstName" class="formControl" maxlength="25" pattern="[a-zA-Zàäâçéèëêïîôöùû -]{2,25}" required>
                         </div>
                         <div class="rowLigne">
                             <label for="nom">Nom :</label>
-                            <input type="text" name="nom" v-model="lastName" class="formControl" maxlength="25" required>
+                            <input type="text" name="nom" v-model="lastName" class="formControl" maxlength="25" pattern="[a-zA-Zàäâçéèëêïîôöùû -]{2,25}" required>
                         </div>
                         <div class="rowLigne">
                             <label for="email">Adresse mail :</label>
