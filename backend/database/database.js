@@ -4,8 +4,9 @@ exports.databaseConnect = () => {
     const db = mysql.createConnection({
         host: "localhost",
         user: "user",
-        password: process.env.DATABASE_PASSWORD,
-        database: "groupomania"
+        password: 'password',
+        database: "groupomania",
+        port: 8889
         });
         return db
 }

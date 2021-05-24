@@ -34,7 +34,6 @@ exports.createUser = (req, res) => {
 exports.connexionUser = (req, res) => {
     const email = req.body.email;
     console.log(email);
-    console.log(process.env.DATABASE_PASSWORD + ' process env')
     const sql = 'SELECT * FROM users WHERE email= ?';
     connection.query(sql, email, function(error, user) {
         if(error) throw error;
