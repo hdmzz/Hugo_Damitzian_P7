@@ -16,8 +16,12 @@
                                 <img :src="post.imageurl" alt="image du post">
                             </div>
                         </router-link>
-                    <button v-if="userId == post.id" @click="deletePost(post.post_id, userDltRoute)" class="deleteBtn"><i class="fas fa-trash-alt"></i></button>
-                    <button v-if="isadmin == 1" @click="deletePost(post.post_id, adminDltRoute)" class="adminDelete">Modérer ce post</button>
+                        <div class="btns">
+                            <button v-if="userId == post.id" @click="deletePost(post.post_id, userDltRoute)" class="deleteBtn btn"><i class="fas fa-trash-alt"></i></button>
+                            <button v-if="isadmin == 1" @click="deletePost(post.post_id, adminDltRoute)" class="adminDelete btn">Modérer ce post</button>
+                            <button class="btnLike btn" id="like" @click="likePost(post.post_id)"><i class="fas fa-thumbs-up" v-if="post.userReaction == 1"></i><i class="far fa-thumbs-up" v-else></i>{{post.likes}}</button>
+                            <button class="btnLike btn" id="disLike" @click="disLikePost(post.post_id)"><i class="fas fa-thumbs-down" v-if="post.userReaction == -1"></i><i class="far fa-thumbs-down" v-else></i>{{post.disLikes}}</button>
+                        </div>
                 </div>
             </div> 
         </div>
@@ -63,10 +67,13 @@ export default {
                     alert("Vous êtes connecté depuis plus de 8 heures, vous devez vous reconnecter")
                 }
                 const data = response.json();
+                console.log(data)
                 return data
             }).then(data => {
+                console.log(data);
                 this.posts = data
             })
+            
         },
         deletePost(id, url) {
             console.log(this.token+'deletepost');
@@ -85,6 +92,38 @@ export default {
                 document.location.reload();
                 }
             })
+        },
+        likePost(id) {
+            const userId = this.userId
+            console.log(JSON.stringify(userId))
+            fetch(`http://localhost:3000/api/post/${id}/like`,{
+                method: 'POST',
+                body: JSON.stringify({
+                    userId: userId,
+                    like: 1
+                    }),
+                headers: {
+                    authorization : 'Bearer ' + this.token,
+                    'Content-Type' : 'application/json',
+                },
+            }).then(res => console.log(res))
+            .catch(error => console.log(error))
+        },
+        disLikePost(id) {
+            const userId = this.userId
+            console.log(JSON.stringify(userId))
+            fetch(`http://localhost:3000/api/post/${id}/like`,{
+                method: 'POST',
+                body: JSON.stringify({
+                    userId: userId,
+                    like: -1
+                    }),
+                headers: {
+                    authorization : 'Bearer ' + this.token,
+                    'Content-Type' : 'application/json',
+                },
+            }).then(res => console.log(res))
+            .catch(error => console.log(error))
         }
     }
 }
@@ -135,12 +174,19 @@ h1{
 #head{
     font-family: franklin Gothic, Arial Bold
 }
+.btns{
+    display: flex;
+}
 .adminDelete{
     background-color:crimson;
     color: whitesmoke;
 }
 .deleteBtn{
     width: fit-content;
+}
+.btnLike{
+    width: fit-content;
+    background-color: none;
 }
 
 //responsive

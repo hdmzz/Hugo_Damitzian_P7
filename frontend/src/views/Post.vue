@@ -24,7 +24,7 @@
                                 <div>
                                     <p>{{comment.comment}}</p>
                                 </div>
-                                <button v-if="userId == comment.userId" @click="deleteComment(comment.commentId, $store.state.userCmtDlt)" class="deleteBtn"><i class="fas fa-trash-alt"></i></button>
+                                <button v-if="userId == comment.userId" @click="deleteComment(comment.commentId, $store.state.userCmtDlt)" class="deleteBtn btn"><i class="fas fa-trash-alt"></i></button>
                                 <button v-if="isadmin == 1" @click="deleteComment(comment.commentId, $store.state.adminCmtDlt)" class="adminDelete">Modérer ce post</button>
                             </div>
                         </div>

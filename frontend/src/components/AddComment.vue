@@ -2,7 +2,7 @@
     <div id="addComment" @submit.prevent='addComment'>
         <form action="post">
             <input type="text" value="Commentaire" name="comInput" id="comInput" v-model="comment" required='true'>
-            <input type="submit" placeholder="Ajouter un commentaire" id="sendBtn">
+            <input type="submit" placeholder="Ajouter un commentaire" id="sendBtn" class="btn btn-primary">
         </form>
     </div>
 </template>
@@ -69,17 +69,6 @@ form{
 #comInput{
     width: 70%;
     margin-right: 1rem;
-}
-#sendBtn{
-    width: fit-content;
-    border: none;
-    background-color: dodgerblue;
-    border-radius: 1rem;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    padding: 7px;
 }
 @media screen and (min-width: 200px) and (max-width: 900px) {
     #addComment{

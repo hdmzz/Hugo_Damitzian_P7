@@ -8,7 +8,7 @@
                 <label for="file" class="labelFile">Choisir une image</label>
                 <input id="file" class="inputFile" type="file" ref="file" name="file" @change="onFileSelected">
             </div>
-            <input type="submit" class="postInput" value="Publier!">
+            <input type="submit" class="postInput btn btn-primary" value="Publier!">
         </form>
         
     </div>
